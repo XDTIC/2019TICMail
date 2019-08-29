@@ -3,9 +3,9 @@ const nodemailer = require('nodemailer');
 const chalk = require('chalk');
 const configure = require('./configure.js'); // {configure.user, configure.pw, replyTo = configure.replyTo}
 
-console.log(chalk.blue('请确保data.csv文件存在且以UTF8编码\n'), configure);
+let time = '2019年08月31日(周六)下午16:00'; // 面试时间
 
-let time = '2019年08月31日(周六)下午14:00'; // 面试时间
+console.log(chalk.blue('请确保data.csv文件存在且以UTF8编码\n'), configure, '\n', time, '\n');
 
 const transporter = nodemailer.createTransport({
   host: 'smtpdm.aliyun.com',
@@ -24,10 +24,11 @@ const wenjuanURL = configure.wenjuanURL; // 面试确认问卷的地址
 
 const html =
   `同学您好：<br/>
-  &nbsp;&nbsp;您的简历已通过筛选，现邀请您于<u>${time}</u>到俱乐部活动室参与面试。你可以携带任何补充材料/简历来参与面试。<br/><br/>
+  &nbsp;&nbsp;您的报名表已通过初步筛选，现邀请您于<u>${time}</u>到俱乐部活动室参加面试。你可以携带任何补充材料/简历来参加面试。<br/><br/>
+  &nbsp;&nbsp;为了避免长时间等待、浪费各位同学的时间，我们将各位按时段进行了分组，按当批次现场签到单的顺序排队面试，希望各位按时到达。如果无法到达，请申请更换时间，方便我们重新进行人员安排。南校区的同学请注意校车时间，如果有特殊问题，可以直接联系各部长。<br/><br/>
   &nbsp;&nbsp;活动室地址：北校区计算机学院(主楼IV区)西边的楼，从一楼东侧门进入(乒乓球场正北)——<i>你可以在下方的回执问卷末尾获取相应的校园地图</i>。<br/><br/>
-  &nbsp;&nbsp;<b>请务必填写</b>以下的表单确认、修改面试时间及告知我们您是否参加面试。<br/><br/>
-  ★&nbsp;<a href="${wenjuanURL}" target="_blank" ref="noopener noreferrer">点此打开</a>腾讯问卷填写面试确认回执。<br/>
+  &nbsp;&nbsp;<b>请务必填写</b>以下的表单确认收到面试邀请或修改面试时间。<br/><br/>
+  ★&nbsp;<a href="${wenjuanURL}" target="_blank" ref="noopener noreferrer">点此打开</a>腾讯问卷，填写面试确认回执。<br/>
   <br/>
   <hr/>
   <ul>
@@ -54,6 +55,7 @@ const html =
     } else{
       console.error(chalk.yellow(`Email Invalid:${u}`));
     }
+    console.log();
   }
 })();
 
