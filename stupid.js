@@ -3,9 +3,9 @@ const nodemailer = require('nodemailer');
 const chalk = require('chalk');
 const configure = require('./configure.js'); // {configure.user, configure.pw, replyTo = configure.replyTo}
 
-let time = '2019年09月01日(周日)上午09:00'; // 面试时间
+let time = '2019年09月01日(周日)下午16:00'; // 面试时间
 
-console.log(chalk.blue('请确保data.csv文件存在且以UTF8编码\n'), configure, '\n', time, '\n');
+console.log(chalk.blue('请确保data.txt文件存在且以UTF8编码\n'), configure, '\n', time, '\n');
 
 const transporter = nodemailer.createTransport({
   host: 'smtpdm.aliyun.com',
@@ -41,20 +41,20 @@ const html =
 
 
 (function(){
-  let data = fs.readFileSync('./data.csv').toString();
+  let data = fs.readFileSync('./data.txt').toString();
   for(let u of data.split('\n')){
-
-    let email = u.split(',')[9];
+    let email = u.replace('\t', '');
+    email = u.replace('\r', '');
     if(/^(\w)+(\.\w+)*@(\w)+((\.\w+)+)$/gi.test(email)){
       send(email)
         .then(()=>{
-          console.log(chalk.green(`Success:${email} | ${u}\n`));
+          console.log(chalk.green(`Success:${email} \n`));
         })
         .catch(err => {
-          console.error(chalk.red(`Fail:${u} \n ${err}\n`));
+          console.error(chalk.red(`Fail:${email} \n ${err}\n`));
         });
     } else{
-      console.error(chalk.yellow(`Email Invalid:${u}\n`));
+      console.error(chalk.yellow(`Email Invalid:${email}\n`));
     }
   }
 })();
