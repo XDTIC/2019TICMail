@@ -1,4 +1,5 @@
 node_modules
 configure.js
-./data.csv
-./data.txt
+data.csv
+data.txt
+offer.txt

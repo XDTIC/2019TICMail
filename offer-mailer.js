@@ -3,9 +3,10 @@ const nodemailer = require('nodemailer');
 const chalk = require('chalk');
 const configure = require('./configure.js'); // {configure.user, configure.pw, replyTo = configure.replyTo}
 
-let time = '2019年09月01日(周日)下午14:00'; // 面试时间
+let apartment = '技术部'; // 面试时间
+let group = '11111'; // qq群之类的东西
 
-console.log(chalk.blue('请确保data.txt文件存在且以UTF8编码\n'), configure, '\n', time, '\n');
+console.log(chalk.blue('请确保offer.txt文件存在且以UTF8编码\n'), configure, '\n', apartment, '\n');
 
 const transporter = nodemailer.createTransport({
   host: 'smtpdm.aliyun.com',
@@ -18,22 +19,18 @@ const transporter = nodemailer.createTransport({
 });
 
 const replyTo = configure.replyTo; // 回执邮箱
-const wenjuanURL = configure.wenjuanURL; // 面试确认问卷的地址
 
 // ------------------- //
 
 const html =
-  `同学您好：<br/>
-  &nbsp;&nbsp;您的报名表已通过初步筛选，现邀请您于<u>${time}</u>到俱乐部活动室参加面试。你可以携带任何补充材料/简历来参加面试。<br/><br/>
-  &nbsp;&nbsp;为了避免长时间等待、浪费各位同学的时间，我们将各位按时段进行了分组，按当批次现场签到单的顺序排队面试，希望各位按时到达。如果无法到达，请申请更换时间，方便我们重新进行人员安排。<br/>
-  &nbsp;&nbsp;南校区的同学请注意校车时间和来时安全，如果有特殊问题，可以直接联系各部长。<br/><br/>
-  &nbsp;&nbsp;活动室地址：北校区计算机学院(主楼IV区)西边的楼，从一楼东侧门进入(乒乓球场正北)——<i>你可以在下方的回执问卷末尾获取相应的校园地图</i>。<br/><br/>
-  &nbsp;&nbsp;<b>请务必填写</b>以下的表单确认收到面试邀请或修改面试时间。<br/><br/>
-  ★&nbsp;<a href="${wenjuanURL}" target="_blank" ref="noopener noreferrer">点此打开</a>腾讯问卷，填写面试确认回执。<br/>
-  <br/>
+  `同学您好：<br/><br/>
+  &nbsp;&nbsp;我们很高兴地通知您——您的简历和面试结果通过了西电TIC主席团的一致认定，现诚挚地邀请您成为<b>西电TIC${apartment}</b>的一员！<br/><br/>
+  &nbsp;&nbsp;我们欢迎您的到来，您可以加入本届的俱乐部成员Q群：<u>${group}</u>，以获取更多俱乐部的内部资讯和后期活动通知。<br/><br/>
+  &nbsp;&nbsp;我们的俱乐部活动室在北校区，不久后我们将召开第一次见面会；后续的各类活动也主要集中在北校区活动室开展。届时，南校区的同学请注意校车时间和来时安全，如果有特殊问题，可以直接联系各部长。<br/><br/>
+  &nbsp;&nbsp;<i>活动室地址：北校区计算机学院(主楼IV区)西边的楼，从一楼东侧门进入(乒乓球场正北)。</i><br/><br/>
   <hr/>
   <ul>
-    <li>您收到此邮件是因为您填写了TIC的报名表。</li>
+    <li>您收到此邮件是因为您填写了TIC的报名表且通过了面试。</li>
     <li>本邮件由可爱的小机器人自动发送，请不要直接进行回复。 o(*￣▽￣*)ブ</li>
     <li>若有任何问题，请联系：<code>${replyTo}</code> 或在招新群中联系部长/管理员。</li>
     <li>如果不是您本人操作请忽略此邮件，您的邮箱不会再受到任何打扰，同时我们对此表示歉意。 <(__)> </li>
@@ -41,7 +38,7 @@ const html =
 
 
 (function(){
-  let data = fs.readFileSync('./data.txt').toString();
+  let data = fs.readFileSync('./offer.txt').toString();
   for(let u of data.split('\n')){
     let email = u.replace('\t', '');
     email = u.replace('\r', '');
@@ -64,7 +61,7 @@ async function send(email) {
   let info = await transporter.sendMail({
     from: '"西电TIC俱乐部" <tech@noreply.xdtic.club>',
     to: email,
-    subject: '西电TIC俱乐部面试通知',
+    subject: '西电TIC俱乐部面试结果通知',
     html,
     replyTo,
   });
