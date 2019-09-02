@@ -8,7 +8,8 @@ module.exports = {
     user: 发件邮箱地址,
     pw: 发件邮箱密码,
     replyTo: 对方直接回复的转发邮箱地址,
-    wenjuanURL: 邮件中的“面试确认回执”的腾讯问卷地址
+    wenjuanURL: 邮件中的“面试确认回执”的腾讯问卷地址,
+    group: q群之类的信息
 }
 ```
 ## data

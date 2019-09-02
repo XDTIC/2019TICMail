@@ -2,9 +2,9 @@ const fs = require('fs');
 const nodemailer = require('nodemailer');
 const chalk = require('chalk');
 const configure = require('./configure.js'); // {configure.user, configure.pw, replyTo = configure.replyTo}
+const qcode = require('./qcodeBase64.js'); // 一个Base64编码的二维码
 
 let apartment = '技术部'; // 面试时间
-let group = '11111'; // qq群之类的东西
 
 console.log(chalk.blue('请确保offer.txt文件存在且以UTF8编码\n'), configure, '\n', apartment, '\n');
 
@@ -25,9 +25,13 @@ const replyTo = configure.replyTo; // 回执邮箱
 const html =
   `同学您好：<br/><br/>
   &nbsp;&nbsp;我们很高兴地通知您——您的简历和面试结果通过了西电TIC主席团的一致认定，现诚挚地邀请您成为<b>西电TIC${apartment}</b>的一员！<br/><br/>
-  &nbsp;&nbsp;我们欢迎您的到来，您可以加入本届的俱乐部成员Q群：<u>${group}</u>，以获取更多俱乐部的内部资讯和后期活动通知。<br/><br/>
+  &nbsp;&nbsp;我们欢迎您的到来，您可以加入本届的俱乐部技术部成员Q群：<u>${configure.group}</u>(或下方扫码)，以获取更多俱乐部的内部资讯和后期活动通知。<br/><br/>
   &nbsp;&nbsp;我们的俱乐部活动室在北校区，不久后我们将召开第一次见面会；后续的各类活动也主要集中在北校区活动室开展。届时，南校区的同学请注意校车时间和来时安全，如果有特殊问题，可以直接联系各部长。<br/><br/>
-  &nbsp;&nbsp;<i>活动室地址：北校区计算机学院(主楼IV区)西边的楼，从一楼东侧门进入(乒乓球场正北)。</i><br/><br/>
+  &nbsp;&nbsp;<i>活动室地址：北校区计算机学院(主楼IV区)西边的楼——计算中心(乒乓球场正北)，从一楼东侧门(303室)进入。</i><br/><br/>
+  <p align="center">
+    <img src="${qcode}"/><br/>
+    <i>请信任邮件以显示二维码</i>
+  </p>
   <hr/>
   <ul>
     <li>您收到此邮件是因为您填写了TIC的报名表且通过了面试。</li>
@@ -63,7 +67,7 @@ async function send(email) {
     to: email,
     subject: '西电TIC俱乐部面试结果通知',
     html,
-    replyTo,
+    replyTo
   });
 
   return info.messageId;
