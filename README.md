@@ -14,12 +14,15 @@ module.exports = {
 ```
 ## data
 
-数据的结构应该如同2019年问卷的格式一致，即第10项为对方的邮箱地址。
-详见：[`data-example/data.csv`](/data-example/data.csv)。
+- `csv`数据的结构应该如同2019年问卷的格式一致，即第10项为对方的邮箱地址。详见：[`data-example/data.csv`](/data-example/data.csv)。
+
+- `txt`只需要保证每行都是一个合法的邮箱即可。
 
 ## run
 在根目录下创建`data.csv`，仿造[`data-example/data.csv`](/data-example/data.csv)填补数据。
+或在根目录下创建`data.txt`，仿造[`data-example/data.txt`](/data-example/data.txt)填补数据。
 
-- 运行 `node ./main.js`，自动发送邮件。
+- 运行 `node ./main.js`，根据`data.csv`自动发送邮件。
+- 运行 `node ./stupid.js` 或 `node ./offer-mailer.js`，根据自动`data.txt`发送邮件。
 
 > 注意，文件需要以UTF8编码。
